@@ -1,0 +1,29 @@
+#Create Certificate
+openssl genrsa -des3 -out server.key 2048
+openssl rsa -in server.key -out server.key
+openssl req -new -x509 -days 365 -key server.key -out server.crt
+chmod og-rwx server.key
+
+#Creation
+CREATE EXTENSION IF NOT EXISTS pgaudit;
+CREATE EXTENSION IF NOT EXISTS set_user; 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+ALTER SYSTEM SET log_statement = 'ddl';
+
+
+#Verify
+
+SHOW logging_collector
+SHOW log_rotation_size;
+SHOW log_connections;
+SHOW log_disconnections;
+SHOW log_truncate_on_rotation;
+SHOW log_statement;
+
+SELECT * FROM pg_available_extensions ;
+SELECT * FROM pg_available_extensions WHERE name = 'pgaudit';
+SELECT * FROM pg_available_extensions WHERE name = 'set_user';
+SELECT * FROM pg_extension WHERE extname = 'pgcrypto';
+
+
+SELECT * FROM pg_extension WHERE extname = 'pgaudit';
